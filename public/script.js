@@ -1,5 +1,15 @@
+/* ══ SPLASH SCREEN ══ */
+document.addEventListener("DOMContentLoaded", () => {
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      setTimeout(() => splash.remove(), 600);
+    }, 2500);
+  }
+});
+
 /* ══ SUPABASE CLIENT ══ */
-// Используется для прямых запросов к Supabase (публичные данные: меню, отзывы).
 // Основные API вызовы идут через Express backend (/api/*), который сам использует Supabase.
 const SUPABASE_URL  = 'https://cpvwnqehlhkzvybiztxu.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_Y4pWyU9zeaKWW5xC2AEuFQ_kOkcY9mz';
