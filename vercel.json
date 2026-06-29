@@ -4,12 +4,28 @@
     {
       "src": "Admin/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "Admin/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "/Admin/server.js"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/Admin/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ]
 }
