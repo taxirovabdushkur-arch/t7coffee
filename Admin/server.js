@@ -1,7 +1,9 @@
 const express = require('express');
 const cors    = require('cors');
 const path    = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+// dotenv — только для локальной разработки, на Vercel переменные берутся из настроек
+try { require('dotenv').config({ path: path.join(__dirname, '.env') }); } catch(_) {}
+
 
 const supabase = require('./supabase');
 const app      = express();
@@ -523,7 +525,7 @@ app.get('/api/customers/:phone/orders', requireAdmin, async (req, res) => {
 });
 
 /* ── SPA fallback ── */
-app.get('/{*path}', (req, res, next) => {
+app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api') || req.path.startsWith('/admin')) return next();
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
