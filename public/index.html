@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>T7 Coffee — Кофе, который движет вашим днём</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header id="header">
+  <a href="#" class="logo">T7 Coffee</a>
+  <nav>
+    <a href="#hero">Главная</a>
+    <a href="#menu-section">Меню</a>
+    <a href="#contact">Контакты</a>
+  </nav>
+  <button class="btn-order" onclick="openOrderModal()">Заказать</button>
+  <button id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+</header>
+
+<div id="mobile-nav">
+  <a href="#hero"         onclick="closeMobileNav()">Главная</a>
+  <a href="#menu-section" onclick="closeMobileNav()">Меню</a>
+  <a href="#contact"      onclick="closeMobileNav()">Контакты</a>
+  <button class="btn-order" style="margin-top:.75rem;width:fit-content" onclick="closeMobileNav();openOrderModal()">Заказать</button>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Кофе, который<br><em>делает день лучше!</em></h1>
+      <p>От эспрессо до фильтра — честный вкус в каждой чашке.</p>
+      <button class="btn-cta" onclick="openOrderModal()">Выбрать кофе</button>
+    </div>
+    <div class="hero-img">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&q=85" alt="Кофе T7"/>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FAF6F1"/></svg>
+  </div>
+</section>
+
+<!-- ══ WHY US ══ -->
+<section id="why">
+  <div class="container">
+    <h2 class="sec-title">Почему с нами вкуснее</h2>
+    <p class="sec-sub">Вкус, который стабилен, и сервис, который помнит ваш заказ.</p>
+    <div class="why-cards">
+      <div class="why-card"><div class="why-icon">🌱</div><div class="why-label">Отборные зёрна</div></div>
+      <div class="why-card"><div class="why-icon">👨‍🍳</div><div class="why-label">Опытные бариста</div></div>
+      <div class="why-card"><div class="why-icon">☕</div><div class="why-label">Уютная атмосфера</div></div>
+      <div class="why-card"><div class="why-icon">⚡</div><div class="why-label">Быстрая подача</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROMO BANNER ══ -->
+<section id="promo">
+  <div class="container">
+    <div class="promo-card">
+      <div class="promo-text">
+        <span class="promo-label">Акция</span>
+        <h2>КОФЕ + ДЕСЕРТ</h2>
+        <p>Закажи любой кофе и получи десерт в подарок при заказе до 22:00.</p>
+        <button class="btn-cta" onclick="openOrderModal()">Заказать сейчас</button>
+      </div>
+      <div class="promo-imgs">
+        <img class="promo-img1" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300&q=80" alt="Десерт"/>
+        <img class="promo-img2" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300&q=80" alt="Кофе"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MENU ══ -->
+<section id="menu-section">
+  <div class="container">
+    <h2 class="sec-title">Ваш идеальный кофе</h2>
+    <p class="sec-sub">Исследуйте меню и найдите напиток, который подойдёт именно вам.</p>
+
+    <div class="menu-tabs" id="menuTabs">
+      <button class="menu-tab active" data-cat="coffee">Классический</button>
+      <button class="menu-tab" data-cat="raf">Рафы / Мокко</button>
+      <button class="menu-tab" data-cat="cold">Холодный</button>
+      <button class="menu-tab" data-cat="dessert">Десерты</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section id="reviews">
+  <div class="container">
+    <h2 class="sec-title" style="text-align:center">Что говорят наши клиенты</h2>
+    <p class="sec-sub" style="text-align:center">Отзывы людей, которые уже попробовали T7 Coffee</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Лучший раф в городе. Доставка пришла за 25 минут — кофе горячий и идеальный. Теперь заказываю каждое утро!»</p>
+        <div class="review-author">
+          <div class="review-avatar">А</div>
+          <div><div class="review-name">Алишер М.</div><div class="review-date">2 дня назад</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Очень удобно заказывать через сайт. Никаких очередей — выбрал, оплатил, жди. Капучино просто восхитительный.»</p>
+        <div class="review-author">
+          <div class="review-avatar">Н</div>
+          <div><div class="review-name">Нилуфар Т.</div><div class="review-date">5 дней назад</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Стабильное качество каждый день. Бариста знают своё дело — вкус всегда одинаково хороший. Рекомендую всем!»</p>
+        <div class="review-author">
+          <div class="review-avatar">С</div>
+          <div><div class="review-name">Санжар К.</div><div class="review-date">1 неделю назад</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="container contact-inner">
+    <div class="contact-info">
+      <h2>Свяжитесь с нами</h2>
+      <div class="ci"><span>📍</span><span>г. Ташкент, ул. Амира Темура, 107</span></div>
+      <div class="ci"><span>📞</span><a href="tel:+998930003906">+998 93 000 39 06</a></div>
+      <div class="ci"><span>�</span><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
+      <div class="ci"><span>�</span><span>Пн–Вс: 08:00 – 22:00</span></div>
+    </div>
+    <div class="contact-form">
+      <h3>Напишите нам</h3>
+      <input type="text"  id="fname"  placeholder="Ваше имя"/>
+      <input type="tel"   id="fphone" placeholder="+998 _ _ _ _ _ _ _ _ _"/>
+      <textarea           id="fmsg"   rows="4" placeholder="Ваш вопрос..."></textarea>
+      <button onclick="submitForm()">Отправить</button>
+      <div class="form-ok" id="formSuccess">✓ Сообщение отправлено!</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">T7 Coffee</span>
+    <span class="footer-copy">© 2025 T7 Coffee. Все права защищены.</span>
+    <div class="footer-links">
+      <a href="https://t.me/t7delivery" target="_blank">Telegram</a>
+      <a href="https://instagram.com"   target="_blank">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ ORDER MODAL ══ -->
+<div class="order-overlay" id="orderOverlay" onclick="handleOverlayClick(event)">
+  <div class="order-modal" id="orderModal">
+    <div class="order-left">
+      <div class="order-left-header">
+        <div class="order-brand">
+          <div class="order-brand-logo">T7</div>
+          <div>
+            <div class="order-brand-name">T7 Coffee</div>
+            <div class="order-brand-sub">ул. Амира Темура, 107 · Доставка 30 мин</div>
+          </div>
+        </div>
+        <button class="order-close" onclick="closeOrderModal()">✕</button>
+      </div>
+      <div class="order-search-wrap">
+        <span class="order-search-icon">🔍</span>
+        <input class="order-search" id="orderSearch" type="text" placeholder="Поиск по меню..."/>
+      </div>
+      <div class="order-tabs" id="orderTabs">
+        <button class="order-tab active" data-cat="coffee">☕ Кофе</button>
+        <button class="order-tab" data-cat="cold">🧊 Холодные</button>
+        <button class="order-tab" data-cat="tea">🍵 Чай</button>
+        <button class="order-tab" data-cat="dessert">🍰 Десерты</button>
+      </div>
+      <div class="order-items" id="orderItems">
+        <div style="padding:2rem;text-align:center;color:#888;font-size:.85rem">Загрузка меню...</div>
+      </div>
+    </div>
+    <div class="order-right">
+      <div class="cart-wrap" id="cartWrap">
+        <div class="cart-header">
+          <div class="cart-title">Ваш заказ</div>
+          <button class="cart-clear" id="cartClearBtn" onclick="clearCart()" style="display:none">Очистить</button>
+        </div>
+        <div class="cart-empty" id="cartEmpty">
+          <div class="cart-empty-icon">🛒</div>
+          <p>Корзина пуста</p>
+          <span>Выберите напиток из меню слева</span>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none">
+          <div class="cart-total-row"><span>Сумма</span><span id="cartSubtotal">0 сум</span></div>
+          <div class="cart-total-row"><span>Доставка</span><span class="cart-free">Бесплатно</span></div>
+          <div class="cart-total-row cart-total-final"><span>Итого</span><span id="cartTotal">0 сум</span></div>
+          <button class="checkout-toggle-btn" onclick="toggleCheckout()">Оформить заказ →</button>
+        </div>
+      </div>
+      <div class="checkout-wrap" id="checkoutWrap" style="display:none">
+        <button class="checkout-back" onclick="toggleCheckout()">← Корзина</button>
+        <div class="checkout-title">Оформление заказа</div>
+        <div class="checkout-section-label">👤 Контактные данные</div>
+        <input class="checkout-input" id="orderName"  type="text" placeholder="Ваше имя *"/>
+        <input class="checkout-input" id="orderPhone" type="tel"  placeholder="+998 90 000 00 00 *"/>
+        <div class="checkout-section-label">📍 Адрес доставки</div>
+        <input class="checkout-input" id="orderAddr"    type="text" placeholder="Улица, дом, квартира *"/>
+        <input class="checkout-input" id="orderFloor"   type="text" placeholder="Этаж / подъезд"/>
+        <textarea class="checkout-input" id="orderComment" rows="2" placeholder="Комментарий..."></textarea>
+        <div class="checkout-section-label">💳 Оплата</div>
+        <div class="payment-options">
+          <label class="payment-opt"><input type="radio" name="payment" value="cash" checked/><span>💵 Наличные</span></label>
+          <label class="payment-opt"><input type="radio" name="payment" value="card"/><span>💳 Карта</span></label>
+        </div>
+        <div class="checkout-total-row">
+          <span>Итого:</span><span id="checkoutTotal" style="color:#8B5E3C;font-weight:700">0 сум</span>
+        </div>
+        <button class="checkout-btn" onclick="placeOrder()">✅ Подтвердить заказ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
