@@ -3,7 +3,14 @@
   "builds": [
     {
       "src": "Admin/server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "Admin/login.html",
+          "Admin/dashboard.html",
+          "public/**"
+        ]
+      }
     }
   ],
   "routes": [
@@ -12,12 +19,8 @@
       "dest": "/Admin/server.js"
     },
     {
-      "src": "/admin/login.html",
-      "dest": "/Admin/login.html"
-    },
-    {
-      "src": "/admin/dashboard.html",
-      "dest": "/Admin/dashboard.html"
+      "src": "/admin/(.*)",
+      "dest": "/Admin/server.js"
     },
     {
       "src": "/(.*)",
