@@ -71,15 +71,70 @@ function renderPageMenu(cat) {
     </div>`).join('');
 }
 
+/* ══ BEST SELLERS ══ */
+function renderSellers() {
+  const grid = document.getElementById('sellersGrid');
+  if (!grid) return;
+  // Любимые позиции: Капучино, Раф, Латте, Холодный Брю (fallback на первые из меню)
+  const picks = ['Капучино', 'Раф', 'Латте', 'Холодный Брю']
+    .map(n => allItems.find(i => i.name === n))
+    .filter(Boolean);
+  const list = picks.length ? picks : allItems.slice(0, 4);
+  grid.innerHTML = list.map(item => `
+    <div class="seller-card">
+      <img class="seller-img" src="${item.img}" alt="${item.name}" loading="lazy"
+           onerror="this.style.display='none'"/>
+      <div class="seller-body">
+        <div class="seller-name">${item.name}</div>
+        <div class="seller-desc">${item.desc}</div>
+        <div class="seller-price">${item.price}</div>
+        <button class="seller-btn" onclick="openOrderModal();setTimeout(()=>{addToCart(${item.id})},400)">В корзину</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ══ ANIMATED STATS ══ */
+function animateStats() {
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const target = +el.dataset.target;
+    const dur = 1400; const start = performance.now();
+    const step = now => {
+      const p = Math.min((now - start) / dur, 1);
+      el.textContent = Math.floor(p * target).toLocaleString('ru-RU');
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+}
+
 /* Табы на странице */
 document.addEventListener('DOMContentLoaded', () => {
   renderPageMenu('coffee');
+  renderSellers();
   document.querySelectorAll('.menu-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderPageMenu(btn.dataset.cat);
     });
+  });
+  // Подгружаем меню с сервера и обновляем секции
+  fetchMenu().then(() => {
+    renderPageMenu(document.querySelector('.menu-tab.active')?.dataset.cat || 'coffee');
+    renderSellers();
+  });
+  // Анимация счётчиков при появлении
+  const stats = document.getElementById('stats');
+  if (stats) {
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) { animateStats(); obs.disconnect(); }
+    }, { threshold: .35 });
+    obs.observe(stats);
+  }
+  // Header scroll state
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
   });
 });
 
@@ -108,16 +163,25 @@ async function fetchMenu() {
 }
 
 /* ══ MODAL OPEN / CLOSE ══ */
+// Сохраняем исходную разметку оформления, чтобы восстановить после успешного заказа
+const _checkoutHTML = document.getElementById('checkoutWrap')?.innerHTML || '';
+
 function openOrderModal() {
   document.getElementById('orderOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
-  fetchMenu().then(() => renderOrderItems(currentCat));
+  fetchMenu().then(() => { renderOrderItems(currentCat); renderCart(); });
 }
 function closeOrderModal() {
   document.getElementById('orderOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  const co = document.getElementById('checkoutWrap');
+  // Восстанавливаем форму, если был показан экран "Заказ принят"
+  if (co && !co.querySelector('.checkout-btn[onclick="placeOrder()"]') && _checkoutHTML) {
+    co.innerHTML = _checkoutHTML;
+  }
   document.getElementById('cartWrap').style.display    = 'flex';
-  document.getElementById('checkoutWrap').style.display = 'none';
+  co.style.display = 'none';
+  setStep('cart');
 }
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('orderOverlay')) closeOrderModal();
@@ -217,13 +281,33 @@ function renderCart() {
   const str = total.toLocaleString('ru-RU') + ' сум';
   document.getElementById('cartSubtotal').textContent = str;
   document.getElementById('cartTotal').textContent    = str;
+  updateHeaderCount();
+}
+
+/* ══ HEADER CART BADGE ══ */
+function updateHeaderCount() {
+  const el = document.getElementById('headerCartCount');
+  if (!el) return;
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  el.textContent = count;
+  el.classList.toggle('show', count > 0);
 }
 
 /* ══ CHECKOUT ══ */
+function setStep(step) {
+  document.querySelectorAll('.ostep').forEach(s => s.classList.toggle('active', s.dataset.step === step || step === 'checkout'));
+  // На шаге корзины подсвечиваем только первый, на оформлении — оба
+  document.querySelectorAll('.ostep').forEach(s => {
+    if (step === 'cart') s.classList.toggle('active', s.dataset.step === 'cart');
+  });
+}
+
 function toggleCheckout() {
   const cw = document.getElementById('cartWrap'); const co = document.getElementById('checkoutWrap');
   const isCart = cw.style.display !== 'none';
+  if (isCart && !Object.keys(cart).length) { alert('Сначала добавьте напитки в корзину'); return; }
   cw.style.display = isCart ? 'none' : 'flex'; co.style.display = isCart ? 'flex' : 'none';
+  setStep(isCart ? 'checkout' : 'cart');
   if (isCart) {
     const ids = Object.keys(cart).map(Number);
     const total = ids.reduce((s,id) => s+(allItems.find(i=>i.id===id)?.priceNum||0)*cart[id], 0);
@@ -231,31 +315,51 @@ function toggleCheckout() {
   }
 }
 
+/* Доставка / Самовывоз */
+function onMethodChange() {
+  const method = document.querySelector('input[name="method"]:checked')?.value || 'delivery';
+  const block = document.getElementById('addrBlock');
+  if (block) block.style.display = method === 'pickup' ? 'none' : 'block';
+}
+
 async function placeOrder() {
   const name    = document.getElementById('orderName').value.trim();
   const phone   = document.getElementById('orderPhone').value.trim();
+  const method  = document.querySelector('input[name="method"]:checked')?.value || 'delivery';
   const address = document.getElementById('orderAddr').value.trim();
   const floor   = document.getElementById('orderFloor').value.trim();
-  const comment = document.getElementById('orderComment').value.trim();
+  const note    = document.getElementById('orderComment').value.trim();
   const payment = document.querySelector('input[name="payment"]:checked')?.value || 'cash';
-  if (!name)    { document.getElementById('orderName').focus();  alert('Введите имя'); return; }
-  if (!phone)   { document.getElementById('orderPhone').focus(); alert('Введите телефон'); return; }
-  if (!address) { document.getElementById('orderAddr').focus();  alert('Введите адрес'); return; }
+  if (!Object.keys(cart).length) { alert('Корзина пуста'); return; }
+  if (!name)  { document.getElementById('orderName').focus();  alert('Введите имя'); return; }
+  if (!phone) { document.getElementById('orderPhone').focus(); alert('Введите телефон'); return; }
+  if (method === 'delivery' && !address) { document.getElementById('orderAddr').focus(); alert('Введите адрес доставки'); return; }
+
+  // Способ получения сохраняем в комментарии, чтобы он отображался в админке
+  const methodLabel = method === 'pickup' ? '🏬 Самовывоз' : '🛵 Доставка';
+  const comment = [methodLabel, note].filter(Boolean).join(' · ');
+  const finalAddress = method === 'pickup' ? 'Самовывоз — ул. Амира Темура, 107' : address;
+
   const ids = Object.keys(cart).map(Number);
   const items = ids.map(id => { const item = allItems.find(i=>i.id===id); return {...item, qty:cart[id]}; });
+  const btn = document.querySelector('.checkout-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
   try {
-    const res = await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name,phone,address,floor,comment,payment,items}) });
-    const data = await res.json();
+    const res = await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name,phone,address:finalAddress,floor,comment,payment,items}) });
+    if (!res.ok) throw new Error('bad response');
+    await res.json();
     document.getElementById('checkoutWrap').innerHTML = `
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:2.5rem 1.5rem;text-align:center;gap:1rem">
         <div style="font-size:3rem">🎉</div>
-        <div style="font-size:1.1rem;font-weight:700;color:#3E2009">Заказ принят!</div>
-        <p style="font-size:.85rem;color:#7A6555;line-height:1.6">Мы позвоним вам в течение 5 минут.</p>
-        <a href="https://t.me/t7delivery" target="_blank" style="font-size:.78rem;color:#C8843A;text-decoration:none">@t7delivery</a>
-        <button class="checkout-btn" onclick="closeOrderModal()" style="margin-top:1rem">Закрыть</button>
+        <div style="font-size:1.15rem;font-weight:700;color:#f3ece1;font-family:'Playfair Display',serif">Заказ принят!</div>
+        <p style="font-size:.88rem;color:#b1a08c;line-height:1.6">Мы свяжемся с вами в течение 5 минут для подтверждения.</p>
+        <a href="https://t.me/t7delivery" target="_blank" style="font-size:.82rem;color:#cda45e;text-decoration:none">Написать в Telegram → @t7delivery</a>
+        <button class="checkout-btn" onclick="closeOrderModal()" style="margin-top:1rem;max-width:200px">Готово</button>
       </div>`;
     cart = {};
+    updateHeaderCount();
   } catch {
+    if (btn) { btn.disabled = false; btn.textContent = '✅ Подтвердить заказ'; }
     alert('Ошибка соединения. Пожалуйста, напишите нам в Telegram @t7delivery');
   }
 }
