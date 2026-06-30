@@ -3,81 +3,108 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>T&7 Coffee</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>T&7 Coffee — Amazing Taste & Beautiful Place</title>
+  <meta name="description" content="T&7 Coffee — кофейня премиум-класса. Лучший кофе, быстрая доставка, уютная атмосфера. Закажите онлайн прямо сейчас."/>
+  <meta name="theme-color" content="#15100c"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
 <!-- ══ SPLASH SCREEN ══ -->
 <div id="splash-screen">
-  <div class="splash-logo">T&7</div>
+  <div class="splash-logo">T&amp;7</div>
+  <div class="splash-tag">COFFEE</div>
 </div>
 
 <!-- ══ HEADER ══ -->
 <header id="header">
-  <a href="#" class="logo">T&7</a>
+  <a href="#hero" class="logo">T&amp;7 <span>COFFEE</span></a>
   <nav>
     <a href="#hero">Главная</a>
+    <a href="#story">О нас</a>
     <a href="#menu-section">Меню</a>
+    <a href="#sellers">Хиты</a>
     <a href="#contact">Контакты</a>
   </nav>
-  <button class="btn-order" onclick="openOrderModal()">Заказать</button>
+  <div class="header-actions">
+    <button class="cart-pill" onclick="openOrderModal()">
+      <span class="cart-pill-ico">🛒</span>
+      <span class="cart-pill-count" id="headerCartCount">0</span>
+    </button>
+    <button class="btn-order" onclick="openOrderModal()">Заказать</button>
+  </div>
   <button id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
 </header>
 
 <div id="mobile-nav">
   <a href="#hero"         onclick="closeMobileNav()">Главная</a>
+  <a href="#story"        onclick="closeMobileNav()">О нас</a>
   <a href="#menu-section" onclick="closeMobileNav()">Меню</a>
+  <a href="#sellers"      onclick="closeMobileNav()">Хиты продаж</a>
   <a href="#contact"      onclick="closeMobileNav()">Контакты</a>
   <button class="btn-order" style="margin-top:.75rem;width:fit-content" onclick="closeMobileNav();openOrderModal()">Заказать</button>
 </div>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <h1>Кофе, который<br><em>делает день лучше!</em></h1>
-      <p>От эспрессо до фильтра — честный вкус в каждой чашке.</p>
-      <button class="btn-cta" onclick="openOrderModal()">Выбрать кофе</button>
-    </div>
-    <div class="hero-img">
-      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&q=85" alt="Кофе T7"/>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <p class="script-sub">Добро пожаловать в T&amp;7</p>
+    <h1>Потрясающий вкус<br><span>&amp; красивое место</span></h1>
+    <p class="hero-lead">От эспрессо до фильтра — честный вкус в каждой чашке. Закажите онлайн и получите кофе с доставкой за 30 минут.</p>
+    <div class="hero-btns">
+      <button class="btn-cta" onclick="openOrderModal()">Заказать сейчас</button>
+      <a href="#menu-section" class="btn-ghost">Смотреть меню</a>
     </div>
   </div>
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FAF6F1"/></svg>
+  <div class="hero-scroll">↓</div>
+</section>
+
+<!-- ══ INFO BAR ══ -->
+<section id="infobar">
+  <div class="container infobar-grid">
+    <div class="info-cell"><span class="info-ico">📞</span><div><div class="info-k">Позвоните нам</div><a class="info-v" href="tel:+998930003906">+998 93 000 39 06</a></div></div>
+    <div class="info-cell"><span class="info-ico">📍</span><div><div class="info-k">Наш адрес</div><span class="info-v">ул. Амира Темура, 107</span></div></div>
+    <div class="info-cell"><span class="info-ico">🕐</span><div><div class="info-k">Открыто Пн–Вс</div><span class="info-v">08:00 — 22:00</span></div></div>
   </div>
 </section>
 
-<!-- ══ WHY US ══ -->
-<section id="why">
-  <div class="container">
-    <h2 class="sec-title">Почему с нами вкуснее</h2>
-    <p class="sec-sub">Вкус, который стабилен, и сервис, который помнит ваш заказ.</p>
-    <div class="why-cards">
-      <div class="why-card"><div class="why-icon">🌱</div><div class="why-label">Отборные зёрна</div></div>
-      <div class="why-card"><div class="why-icon">👨‍🍳</div><div class="why-label">Опытные бариста</div></div>
-      <div class="why-card"><div class="why-icon">☕</div><div class="why-label">Уютная атмосфера</div></div>
-      <div class="why-card"><div class="why-icon">⚡</div><div class="why-label">Быстрая подача</div></div>
+<!-- ══ OUR STORY ══ -->
+<section id="story">
+  <div class="container story-grid">
+    <div class="story-imgs">
+      <img class="story-img-a" src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=600&q=80" alt="Интерьер кофейни T&7"/>
+      <img class="story-img-b" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=80" alt="Бариста готовит кофе"/>
+    </div>
+    <div class="story-card">
+      <p class="script-sub">Наша история</p>
+      <h2 class="sec-title">Откройте для себя<br>вкус T&amp;7</h2>
+      <p class="story-text">Мы начинали с маленькой кофейни и большой мечты — подавать кофе, который делает день лучше. Сегодня T&amp;7 — это отборные зёрна, опытные бариста и атмосфера, в которую хочется возвращаться.</p>
+      <p class="story-text">Каждая чашка — это забота о деталях: от обжарки до подачи. Закажите онлайн и почувствуйте разницу.</p>
+      <button class="btn-cta" onclick="openOrderModal()">Заказать кофе</button>
     </div>
   </div>
 </section>
 
-<!-- ══ PROMO BANNER ══ -->
-<section id="promo">
-  <div class="container">
-    <div class="promo-card">
-      <div class="promo-text">
-        <span class="promo-label">Акция</span>
-        <h2>КОФЕ + ДЕСЕРТ</h2>
-        <p>Закажи любой кофе и получи десерт в подарок при заказе до 22:00.</p>
-        <button class="btn-cta" onclick="openOrderModal()">Заказать сейчас</button>
-      </div>
-      <div class="promo-imgs">
-        <img class="promo-img1" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300&q=80" alt="Десерт"/>
-        <img class="promo-img2" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300&q=80" alt="Кофе"/>
-      </div>
+<!-- ══ FEATURES ══ -->
+<section id="features">
+  <div class="container features-grid">
+    <div class="feature">
+      <div class="feature-ico">🧾</div>
+      <h3>Легко заказать</h3>
+      <p>Выберите напитки в пару кликов — без очередей и звонков.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-ico">🛵</div>
+      <h3>Быстрая доставка</h3>
+      <p>Привозим горячий кофе к вашей двери за 30 минут.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-ico">☕</div>
+      <h3>Качественный кофе</h3>
+      <p>Только свежеобжаренные зёрна и стабильный вкус каждый день.</p>
     </div>
   </div>
 </section>
@@ -85,8 +112,9 @@
 <!-- ══ MENU ══ -->
 <section id="menu-section">
   <div class="container">
-    <h2 class="sec-title">Ваш идеальный кофе</h2>
-    <p class="sec-sub">Исследуйте меню и найдите напиток, который подойдёт именно вам.</p>
+    <p class="script-sub center">Откройте</p>
+    <h2 class="sec-title center">Наше меню</h2>
+    <p class="sec-sub center">Исследуйте меню и найдите напиток, который подойдёт именно вам.</p>
 
     <div class="menu-tabs" id="menuTabs">
       <button class="menu-tab active" data-cat="coffee">Классический</button>
@@ -99,11 +127,42 @@
   </div>
 </section>
 
+<!-- ══ STATS ══ -->
+<section id="stats">
+  <div class="stats-overlay"></div>
+  <div class="container stats-grid">
+    <div class="stat"><div class="stat-num" data-target="8">0</div><div class="stat-label">Кофеен</div></div>
+    <div class="stat"><div class="stat-num" data-target="17">0</div><div class="stat-label">Наград</div></div>
+    <div class="stat"><div class="stat-num" data-target="9072">0</div><div class="stat-label">Довольных клиентов</div></div>
+    <div class="stat"><div class="stat-num" data-target="24">0</div><div class="stat-label">Бариста</div></div>
+  </div>
+</section>
+
+<!-- ══ BEST SELLERS ══ -->
+<section id="sellers">
+  <div class="container">
+    <p class="script-sub center">Откройте</p>
+    <h2 class="sec-title center">Хиты продаж</h2>
+    <p class="sec-sub center">Любимые напитки наших гостей — попробуйте лучшее из меню T&amp;7.</p>
+    <div class="sellers-grid" id="sellersGrid"></div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&q=80" alt="Атмосфера кофейни"/>
+  <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80" alt="Гости кофейни"/>
+  <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&q=80" alt="Бариста за работой"/>
+  <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&q=80" alt="Чашка кофе"/>
+  <img src="https://images.unsplash.com/photo-1442975631115-c4f7b05b8a2c?w=400&q=80" alt="Зёрна кофе"/>
+</section>
+
 <!-- ══ REVIEWS ══ -->
 <section id="reviews">
   <div class="container">
-    <h2 class="sec-title" style="text-align:center">Что говорят наши клиенты</h2>
-    <p class="sec-sub" style="text-align:center">Отзывы людей, которые уже попробовали T7 Coffee</p>
+    <p class="script-sub center">Отзывы</p>
+    <h2 class="sec-title center">Что говорят клиенты</h2>
+    <p class="sec-sub center">Люди, которые уже попробовали T&amp;7 Coffee</p>
     <div class="reviews-grid">
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
@@ -137,16 +196,17 @@
 <section id="contact">
   <div class="container contact-inner">
     <div class="contact-info">
-      <h2>Свяжитесь с нами</h2>
+      <p class="script-sub">Свяжитесь</p>
+      <h2 class="sec-title">Напишите нам</h2>
       <div class="ci"><span>📍</span><span>г. Ташкент, ул. Амира Темура, 107</span></div>
       <div class="ci"><span>📞</span><a href="tel:+998930003906">+998 93 000 39 06</a></div>
-      <div class="ci"><span>�</span><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
-      <div class="ci"><span>�</span><span>Пн–Вс: 08:00 – 22:00</span></div>
+      <div class="ci"><span>✈️</span><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
+      <div class="ci"><span>🕐</span><span>Пн–Вс: 08:00 – 22:00</span></div>
     </div>
     <div class="contact-form">
-      <h3>Напишите нам</h3>
+      <h3>Остались вопросы?</h3>
       <input type="text"  id="fname"  placeholder="Ваше имя"/>
-      <input type="tel"   id="fphone" placeholder="+998 _ _ _ _ _ _ _ _ _"/>
+      <input type="tel"   id="fphone" placeholder="+998 _ _  _ _ _  _ _  _ _"/>
       <textarea           id="fmsg"   rows="4" placeholder="Ваш вопрос..."></textarea>
       <button onclick="submitForm()">Отправить</button>
       <div class="form-ok" id="formSuccess">✓ Сообщение отправлено!</div>
@@ -156,9 +216,33 @@
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <div class="footer-inner">
-    <span class="footer-logo">T&7</span>
-    <span class="footer-copy">© 2026 T&7. Все права защищены.</span>
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <span class="footer-logo">T&amp;7 <span>COFFEE</span></span>
+      <p class="footer-about">Кофейня премиум-класса. Отборные зёрна, опытные бариста и уютная атмосфера — то, что делает каждый ваш день лучше.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Меню</h4>
+      <a href="#menu-section">Кофе</a>
+      <a href="#menu-section">Холодные напитки</a>
+      <a href="#menu-section">Десерты</a>
+      <a href="#sellers">Хиты продаж</a>
+    </div>
+    <div class="footer-col">
+      <h4>Сервис</h4>
+      <a href="#" onclick="openOrderModal();return false">Доставка</a>
+      <a href="#" onclick="openOrderModal();return false">Онлайн-заказ</a>
+      <a href="#contact">Поддержка</a>
+    </div>
+    <div class="footer-col">
+      <h4>Контакты</h4>
+      <a href="tel:+998930003906">+998 93 000 39 06</a>
+      <a href="https://t.me/t7delivery" target="_blank">@t7delivery</a>
+      <span class="footer-muted">ул. Амира Темура, 107</span>
+    </div>
+  </div>
+  <div class="footer-bottom container">
+    <span>© 2026 T&amp;7 Coffee. Все права защищены.</span>
     <div class="footer-links">
       <a href="https://t.me/t7delivery" target="_blank">Telegram</a>
       <a href="https://instagram.com"   target="_blank">Instagram</a>
@@ -172,9 +256,9 @@
     <div class="order-left">
       <div class="order-left-header">
         <div class="order-brand">
-          <div class="order-brand-logo">T&7</div>
+          <div class="order-brand-logo">T&amp;7</div>
           <div>
-            <div class="order-brand-name">T&7 Coffee</div>
+            <div class="order-brand-name">T&amp;7 Coffee</div>
             <div class="order-brand-sub">ул. Амира Темура, 107 · Доставка 30 мин</div>
           </div>
         </div>
@@ -191,10 +275,17 @@
         <button class="order-tab" data-cat="dessert">🍰 Десерты</button>
       </div>
       <div class="order-items" id="orderItems">
-        <div style="padding:2rem;text-align:center;color:#888;font-size:.85rem">Загрузка меню...</div>
+        <div style="padding:2rem;text-align:center;color:#9b8a76;font-size:.85rem">Загрузка меню...</div>
       </div>
     </div>
     <div class="order-right">
+      <!-- STEP INDICATOR -->
+      <div class="order-steps" id="orderSteps">
+        <div class="ostep active" data-step="cart"><span>1</span> Корзина</div>
+        <div class="ostep-line"></div>
+        <div class="ostep" data-step="checkout"><span>2</span> Оформление</div>
+      </div>
+
       <div class="cart-wrap" id="cartWrap">
         <div class="cart-header">
           <div class="cart-title">Ваш заказ</div>
@@ -213,25 +304,48 @@
           <button class="checkout-toggle-btn" onclick="toggleCheckout()">Оформить заказ →</button>
         </div>
       </div>
+
       <div class="checkout-wrap" id="checkoutWrap" style="display:none">
-        <button class="checkout-back" onclick="toggleCheckout()">← Корзина</button>
-        <div class="checkout-title">Оформление заказа</div>
-        <div class="checkout-section-label">👤 Контактные данные</div>
-        <input class="checkout-input" id="orderName"  type="text" placeholder="Ваше имя *"/>
-        <input class="checkout-input" id="orderPhone" type="tel"  placeholder="+998 90 000 00 00 *"/>
-        <div class="checkout-section-label">📍 Адрес доставки</div>
-        <input class="checkout-input" id="orderAddr"    type="text" placeholder="Улица, дом, квартира *"/>
-        <input class="checkout-input" id="orderFloor"   type="text" placeholder="Этаж / подъезд"/>
-        <textarea class="checkout-input" id="orderComment" rows="2" placeholder="Комментарий..."></textarea>
-        <div class="checkout-section-label">💳 Оплата</div>
-        <div class="payment-options">
-          <label class="payment-opt"><input type="radio" name="payment" value="cash" checked/><span>💵 Наличные</span></label>
-          <label class="payment-opt"><input type="radio" name="payment" value="card"/><span>💳 Карта</span></label>
+        <button class="checkout-back" onclick="toggleCheckout()">← Назад в корзину</button>
+
+        <div class="checkout-block">
+          <div class="checkout-section-label"><span>👤</span> Контактные данные</div>
+          <input class="checkout-input" id="orderName"  type="text" placeholder="Ваше имя *"/>
+          <input class="checkout-input" id="orderPhone" type="tel"  placeholder="+998 90 000 00 00 *"/>
         </div>
-        <div class="checkout-total-row">
-          <span>Итого:</span><span id="checkoutTotal" style="color:#8B5E3C;font-weight:700">0 сум</span>
+
+        <div class="checkout-block">
+          <div class="checkout-section-label"><span>🚚</span> Способ получения</div>
+          <div class="method-options">
+            <label class="method-opt"><input type="radio" name="method" value="delivery" checked onchange="onMethodChange()"/><span class="method-pill">🛵 Доставка</span></label>
+            <label class="method-opt"><input type="radio" name="method" value="pickup" onchange="onMethodChange()"/><span class="method-pill">🏬 Самовывоз</span></label>
+          </div>
+        </div>
+
+        <div class="checkout-block" id="addrBlock">
+          <div class="checkout-section-label"><span>📍</span> Адрес доставки</div>
+          <input class="checkout-input" id="orderAddr"    type="text" placeholder="Улица, дом, квартира *"/>
+          <input class="checkout-input" id="orderFloor"   type="text" placeholder="Этаж / подъезд / домофон"/>
+        </div>
+
+        <div class="checkout-block">
+          <div class="checkout-section-label"><span>💳</span> Оплата</div>
+          <div class="payment-options">
+            <label class="payment-opt"><input type="radio" name="payment" value="cash" checked/><span>💵 Наличные</span></label>
+            <label class="payment-opt"><input type="radio" name="payment" value="card"/><span>💳 Карта</span></label>
+          </div>
+        </div>
+
+        <div class="checkout-block">
+          <div class="checkout-section-label"><span>📝</span> Комментарий</div>
+          <textarea class="checkout-input" id="orderComment" rows="2" placeholder="Например: без сахара, позвонить за 10 минут..."></textarea>
+        </div>
+
+        <div class="checkout-summary">
+          <div class="checkout-total-row"><span>Итого к оплате</span><span id="checkoutTotal">0 сум</span></div>
         </div>
         <button class="checkout-btn" onclick="placeOrder()">✅ Подтвердить заказ</button>
+        <p class="checkout-note">Нажимая «Подтвердить», вы соглашаетесь, что мы свяжемся с вами для уточнения деталей.</p>
       </div>
     </div>
   </div>
