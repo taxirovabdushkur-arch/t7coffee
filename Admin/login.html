@@ -135,7 +135,7 @@
         });
         const data = await res.json();
 
-        if (res.ok && data.token && data.role === selectedRole) {
+        if (res.ok && data.token && data.role) {
           localStorage.setItem('adminToken', data.token);
           localStorage.setItem('userRole', data.role);
           window.location.href = selectedServer + '/admin/dashboard.html';
