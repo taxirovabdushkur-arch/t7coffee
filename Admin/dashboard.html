@@ -381,7 +381,6 @@ tbody tr:hover{background:var(--accent-glow)}
 <div class="topbar">
   <button class="topbar-menu btn" onclick="document.getElementById('sb').classList.toggle('open')">☰</button>
   <span class="tb-title" id="tbTitle">Dashboard</span>
-  <div class="tb-search" id="gSearchBox"><span style="color:var(--muted)">🔎</span><input type="text" placeholder="Поиск..." id="gSearch" oninput="onGSearch(this.value)"/></div>
   <div class="tb-right">
     <div style="position:relative">
       <button class="tb-btn" onclick="toggleNotif()" id="notifBtn">🔔<div class="tb-dot" id="notifDot"></div></button>
@@ -925,7 +924,6 @@ function nav(p){
   const tk='nav_'+p; document.getElementById('tbTitle').textContent=(t(tk)!==tk?t(tk):(pageNames[p]||p));
   curPage=p;
   document.getElementById('sb').classList.remove('open');
-  document.getElementById('gSearchBox').style.display=['orders','employees','reviews'].includes(p)?'flex':'none';
   document.getElementById('gSearch').value='';
   const loaders={dashboard:'loadDash',orders:'loadOrders',employees:'loadEmps',messages:'loadMsgs',reviews:'loadRevs',promotions:'loadPromos',menu:'loadMenuPage'};
   const fn=window[loaders[p]];

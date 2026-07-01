@@ -103,7 +103,7 @@
     <div class="role-tag">👥 Менеджер</div>
 
     <label for="pwd">Пароль менеджера</label>
-    <input type="password" id="pwd" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')login()"/>
+    <input type="password" id="pwd" placeholder="Введите пароль" autocomplete="off" onkeydown="if(event.key==='Enter')login()"/>
     <button onclick="login()">Войти →</button>
 
     <div class="err" id="err">Неверный пароль. Попробуйте снова.</div>
