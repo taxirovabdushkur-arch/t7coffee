@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>T7 Coffee — Admin</title>
+<script>
+if(!localStorage.getItem('adminToken')){window.location.href='login.html';}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -821,8 +824,6 @@ const API = (url, o={}) => fetch(url, { ...o, headers: {'x-admin-token':TOKEN,'C
 const cm = id => document.getElementById(id).classList.remove('open');
 const om = id => document.getElementById(id).classList.add('open');
 
-function logout(){ localStorage.removeItem('adminToken'); location.href='login.html'; }
-
 /* ══ THEME ══ */
 let dark = localStorage.getItem('theme') === 'dark';
 function applyTheme(){
@@ -1394,8 +1395,9 @@ function saveProfile(){
 function logout(){
   if(!confirm('Вы уверены, что хотите выйти?')) return;
   localStorage.removeItem('adminToken');
+  localStorage.removeItem('userRole');
   localStorage.removeItem('lang');
-  window.location.href='../login.html';
+  window.location.href='login.html';
 }
 function updateProfileDisplay(){
   document.getElementById('profileName').textContent=currentUser.name+' '+currentUser.last_name;
