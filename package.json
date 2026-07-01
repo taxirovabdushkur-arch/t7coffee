@@ -4,7 +4,8 @@
   "main": "Admin/server.js",
   "scripts": {
     "start": "node Admin/server.js",
-    "dev": "node Admin/server.js"
+    "dev": "node Admin/server.js",
+    "manager": "node Admin/server-manager.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
