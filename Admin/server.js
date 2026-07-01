@@ -9,8 +9,10 @@ const supabase = require('./supabase');
 const app      = express();
 const PORT           = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 't7admin2024';
+const MANAGER_PASSWORD = process.env.MANAGER_PASSWORD || 't7manager2024';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'secret';
 const ADMIN_TOKEN    = Buffer.from(ADMIN_PASSWORD + SESSION_SECRET).toString('base64');
+const MANAGER_TOKEN  = Buffer.from(MANAGER_PASSWORD + SESSION_SECRET).toString('base64');
 
 app.use(cors());
 app.use(express.json());
@@ -25,8 +27,13 @@ function requireAdmin(req, res, next) {
 /* ── AUTH ── */
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
-  if (password === ADMIN_PASSWORD) res.json({ token: ADMIN_TOKEN, ok: true });
-  else res.status(401).json({ error: 'Неверный пароль' });
+  if (password === ADMIN_PASSWORD) {
+    res.json({ token: ADMIN_TOKEN, ok: true, role: 'admin' });
+  } else if (password === MANAGER_PASSWORD) {
+    res.json({ token: MANAGER_TOKEN, ok: true, role: 'manager' });
+  } else {
+    res.status(401).json({ error: 'Неверный пароль' });
+  }
 });
 
 /* ── MENU ── */
@@ -429,6 +436,7 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     { count: pendingReviews },
     { count: unreadMessages },
     { count: newOrders },
+    { count: attendancePresentToday },
     { data: recentOrders }
   ] = await Promise.all([
     supabase.from('orders').select('*', { count: 'exact', head: true }).gte('created_at', today),
@@ -443,6 +451,7 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     supabase.from('reviews').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
     supabase.from('employee_messages').select('*', { count: 'exact', head: true }).eq('is_read', 0),
     supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+    supabase.from('attendance').select('*', { count: 'exact', head: true }).eq('date', today).in('status', ['present', 'late']),
     supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(10)
   ]);
 
@@ -474,6 +483,7 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     expenses_month: expMonth, profit_month: revMonth - expMonth,
     employees_count: employeesCount, active_products: activeProducts,
     pending_reviews: pendingReviews, unread_messages: unreadMessages, new_orders: newOrders,
+    attendance_present_today: attendancePresentToday,
     recent_orders: recentOrders || [],
     orders_by_day, revenue_by_day, expenses_by_day
   });
